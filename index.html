@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vikram Kumar Azad - Portfolio</title>
+</head>
+<body style="margin:0;font-family:sans-serif;background:#f9f9f9;">
+
+  <!-- Header -->
+  <div style="background:#222;color:white;padding:20px;text-align:center;">
+    <h1 style="margin:0;">Vikram Kumar Azad</h1>
+    <p style="margin:0;">Developer | AI Tools | Book Seller</p>
+  </div>
+
+  <!-- About -->
+  <div style="padding:20px;">
+    <h2>About Me</h2>
+    <p>Hi, I'm Vikram. I create modern web apps, AI tools, and digital book platforms.</p>
+  </div>
+
+  <!-- Skills -->
+  <div style="padding:20px;background:white;">
+    <h2>Skills</h2>
+    <ul>
+      <li>HTML, JS (No CSS)</li>
+      <li>Node.js, Python</li>
+      <li>Machine Learning, AI Chatbots</li>
+    </ul>
+  </div>
+
+  <!-- Search + Category + Projects -->
+  <div style="padding:20px;">
+    <h2>Projects</h2>
+    <input type="text" id="search" placeholder="Search project..." oninput="showProjects()" style="padding:5px;width:200px;">
+    <select id="filter" onchange="showProjects()" style="padding:5px;">
+      <option value="all">All</option>
+      <option value="AI">AI</option>
+      <option value="Web">Web</option>
+      <option value="App">App</option>
+    </select>
+    <div id="project-list" style="padding-top:10px;"></div>
+  </div>
+
+  <!-- Admin Panel -->
+  <div style="padding:20px;background:white;">
+    <h2>Admin Panel (Add Projects)</h2>
+    <input type="password" id="admin-pass" placeholder="Password" style="padding:5px;width:200px;"><br><br>
+    <input type="text" id="proj-title" placeholder="Project Title" style="padding:5px;width:300px;"><br><br>
+    <textarea id="proj-desc" placeholder="Description" rows="3" style="width:300px;padding:5px;"></textarea><br><br>
+    <select id="proj-cat" style="padding:5px;">
+      <option value="AI">AI</option>
+      <option value="Web">Web</option>
+      <option value="App">App</option>
+    </select><br><br>
+    <input type="file" id="proj-file" /><br><br>
+    <button onclick="addProject()" style="padding:10px 15px;">Upload Project</button>
+    <p id="msg" style="color:green;"></p>
+  </div>
+
+  <!-- AI Chatbot -->
+  <div style="padding:20px;">
+    <h2>AI Chatbot</h2>
+    <input id="chat-input" type="text" placeholder="Ask something..." style="padding:5px;width:300px;">
+    <button onclick="chatBot()" style="padding:5px 10px;">Ask</button>
+    <p id="chat-response" style="background:white;padding:10px;margin-top:10px;"></p>
+  </div>
+
+  <!-- Contact -->
+  <div style="padding:20px;background:white;">
+    <h2>Contact</h2>
+    <p>Email: vikram@example.com</p>
+    <p>Phone: +91-XXXXXXXXXX</p>
+  </div>
+
+  <!-- Footer -->
+  <div style="background:#222;color:white;text-align:center;padding:10px;">
+    <p>&copy; 2025 Vikram Kumar Azad</p>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    let password = "vikram123";
+    let projects = [];
+
+    function addProject() {
+      const pass = document.getElementById("admin-pass").value;
+      const title = document.getElementById("proj-title").value;
+      const desc = document.getElementById("proj-desc").value;
+      const cat = document.getElementById("proj-cat").value;
+      const file = document.getElementById("proj-file").files[0];
+      const fileName = file ? file.name : "No file";
+
+      if (pass !== password) {
+        alert("Wrong password!");
+        return;
+      }
+      if (!title || !desc) {
+        alert("Fill all fields!");
+        return;
+      }
+
+      projects.push({title, desc, category: cat, fileName});
+      document.getElementById("msg").innerText = "✅ Project added!";
+      document.getElementById("proj-title").value = "";
+      document.getElementById("proj-desc").value = "";
+      document.getElementById("proj-file").value = "";
+      showProjects();
+    }
+
+    function showProjects() {
+      const list = document.getElementById("project-list");
+      const search = document.getElementById("search").value.toLowerCase();
+      const filter = document.getElementById("filter").value;
+      list.innerHTML = "";
+
+      projects
+        .filter(p =>
+          (filter === "all" || p.category === filter) &&
+          (p.title.toLowerCase().includes(search) || p.desc.toLowerCase().includes(search))
+        )
+        .forEach(p => {
+          const item = `<div style="background:white;padding:10px;margin:10px 0;border-radius:10px;">
+            <h3>${p.title} <span style="font-size:14px;color:gray;">[${p.category}]</span></h3>
+            <p>${p.desc}</p>
+            <p><b>File:</b> ${p.fileName}</p>
+          </div>`;
+          list.innerHTML += item;
+        });
+    }
+
+    function chatBot() {
+      const input = document.getElementById("chat-input").value.toLowerCase();
+      let response = "Sorry, I don't understand.";
+
+      if (input.includes("hello") || input.includes("hi")) response = "Hi! I'm Vikram's AI assistant.";
+      else if (input.includes("skills")) response = "Vikram knows HTML, JavaScript, AI tools, and more.";
+      else if (input.includes("project")) response = "Check out the latest projects above!";
+      else if (input.includes("contact")) response = "You can contact Vikram at vikram@example.com.";
+
+      document.getElementById("chat-response").innerText = response;
+    }
+  </script>
+
+</body>
+</html>
