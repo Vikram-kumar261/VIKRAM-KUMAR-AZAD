@@ -229,3 +229,98 @@
           <li>Q5: What time 2 hr 15 min after 5:30?</li>
         </ul>
       </article>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dynamic Upload & Show</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f8ff;
+    }
+    h2 { color: #333; }
+    #preview { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; }
+    .file-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      background: #fff;
+      text-align: center;
+      width: 220px;
+    }
+    img, video { max-width: 200px; border-radius: 5px; }
+    pre { text-align: left; max-height: 200px; overflow: auto; background: #eee; padding: 5px; }
+    button {
+      margin-top: 10px;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover { background-color: #45a049; }
+  </style>
+</head>
+<body>
+  <h2>Upload Files & Turant Dekho</h2>
+  <input type="file" id="fileInput" multiple>
+  <button id="clearBtn">Clear All</button>
+
+  <div id="preview"></div>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const preview = document.getElementById('preview');
+    const clearBtn = document.getElementById('clearBtn');
+
+    fileInput.addEventListener('change', () => {
+      preview.innerHTML = ''; // Purani files hata de
+      const files = fileInput.files;
+
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        const card = document.createElement('div');
+        card.className = 'file-card';
+        const info = document.createElement('p');
+        info.textContent = `${file.name} (${Math.round(file.size / 1024)} KB)`;
+        card.appendChild(info);
+
+        reader.onload = function(e) {
+          let element;
+          if(file.type.startsWith('image/')) {
+            element = document.createElement('img');
+            element.src = e.target.result;
+          } else if(file.type.startsWith('video/')) {
+            element = document.createElement('video');
+            element.src = e.target.result;
+            element.controls = true;
+          } else if(file.type === 'text/plain') {
+            element = document.createElement('pre');
+            element.textContent = e.target.result;
+          } else {
+            element = document.createElement('p');
+            element.textContent = "Preview not available";
+          }
+          card.appendChild(element);
+          preview.appendChild(card);
+        }
+
+        if(file.type.startsWith('image/') || file.type.startsWith('video/')){
+          reader.readAsDataURL(file);
+        } else if(file.type === 'text/plain'){
+          reader.readAsText(file);
+        } else {
+          preview.appendChild(card);
+        }
+      });
+    });
+
+    clearBtn.addEventListener('click', () => {
+      preview.innerHTML = '';
+      fileInput.value = '';
+    });
+  </script>
+</body>
+</html>
