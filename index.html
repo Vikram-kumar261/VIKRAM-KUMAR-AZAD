@@ -1,146 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vikram Kumar Azad - Portfolio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #f7cac9, #92a8d1);
+    }
+    header, section, footer {
+      padding: 40px 20px;
+      text-align: center;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .chatbot {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 300px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      padding: 10px;
+      z-index: 999;
+    }
+    .chatbot h3 {
+      margin: 0 0 10px;
+    }
+    .chat-history {
+      max-height: 200px;
+      overflow-y: auto;
+      text-align: left;
+      margin-bottom: 10px;
+    }
+    .chat-input input {
+      width: 80%;
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .chat-input button {
+      padding: 5px 10px;
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+  </style>
 </head>
-<body style="margin:0;font-family:sans-serif;background:#f9f9f9;">
-
-  <!-- Header -->
-  <div style="background:#222;color:white;padding:20px;text-align:center;">
-    <h1 style="margin:0;">Vikram Kumar Azad</h1>
-    <p style="margin:0;">Developer | AI Tools | Book Seller</p>
-  </div>
-
-  <!-- About -->
-  <div style="padding:20px;">
+<body>  <header style="background: #fff3cd;">
+    <h1>Hello, I am Vikram Kumar Azad from Patna</h1>
+    <img src="https://via.placeholder.com/150" alt="Profile Picture" style="border-radius: 50%;">
+  </header>  <section class="section" style="background: #d5f4e6;">
     <h2>About Me</h2>
-    <p>Hi, I'm Vikram. I create modern web apps, AI tools, and digital book platforms.</p>
-  </div>
-
-  <!-- Skills -->
-  <div style="padding:20px;background:white;">
+    <p>I am a passionate developer and creative thinker who loves to build modern, helpful, and beautiful websites.</p>
+  </section>  <section class="section" style="background: #f0e68c;">
     <h2>Skills</h2>
-    <ul>
-      <li>HTML, JS (No CSS)</li>
-      <li>Node.js, Python</li>
-      <li>Machine Learning, AI Chatbots</li>
-    </ul>
-  </div>
-
-  <!-- Search + Category + Projects -->
-  <div style="padding:20px;">
+    <p>HTML, JavaScript, Python, AI Tools, Web Design</p>
+  </section>  <section class="section" style="background: #e6e6fa;">
     <h2>Projects</h2>
-    <input type="text" id="search" placeholder="Search project..." oninput="showProjects()" style="padding:5px;width:200px;">
-    <select id="filter" onchange="showProjects()" style="padding:5px;">
-      <option value="all">All</option>
-      <option value="AI">AI</option>
-      <option value="Web">Web</option>
-      <option value="App">App</option>
-    </select>
-    <div id="project-list" style="padding-top:10px;"></div>
-  </div>
+    <p>Portfolio Website, AI Chatbot, Book Selling Website</p>
+  </section>  <section class="section" style="background: #f9c2ff;">
+    <h2>Book Store</h2>
+    <p>You can upload and browse books here (upload system coming soon...)</p>
+  </section>  <section class="section" style="background: #b0e0e6;">
+    <h2>Testimonials</h2>
+    <p>"Vikram is highly talented and professional." - Client A</p>
+  </section>  <section class="section" style="background: #ffb347;">
+    <h2>Contact Me</h2>
+    <form>
+      <input type="text" placeholder="Your Name" style="padding: 10px; width: 80%;"><br><br>
+      <input type="email" placeholder="Your Email" style="padding: 10px; width: 80%;"><br><br>
+      <textarea placeholder="Your Message" style="padding: 10px; width: 80%; height: 100px;"></textarea><br><br>
+      <button type="submit" style="padding: 10px 20px; background: green; color: white; border: none;">Send</button>
+    </form>
+  </section>  <footer style="background: #ccc;">
+    <p>&copy; 2025 Vikram Kumar Azad. All rights reserved.</p>
+  </footer>  <div class="chatbot">
+    <h3>Can I Help You?</h3>
+    <div class="chat-history" id="chat-history">
+      <p><strong>Bot:</strong> Hi there! How can I help you?</p>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="user-input" placeholder="Type your message...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>  <script>
+    function sendMessage() {
+      const input = document.getElementById('user-input');
+      const chat = document.getElementById('chat-history');
+      const userMessage = input.value;
+      if(userMessage.trim() === '') return;
 
-  <!-- Admin Panel -->
-  <div style="padding:20px;background:white;">
-    <h2>Admin Panel (Add Projects)</h2>
-    <input type="password" id="admin-pass" placeholder="Password" style="padding:5px;width:200px;"><br><br>
-    <input type="text" id="proj-title" placeholder="Project Title" style="padding:5px;width:300px;"><br><br>
-    <textarea id="proj-desc" placeholder="Description" rows="3" style="width:300px;padding:5px;"></textarea><br><br>
-    <select id="proj-cat" style="padding:5px;">
-      <option value="AI">AI</option>
-      <option value="Web">Web</option>
-      <option value="App">App</option>
-    </select><br><br>
-    <input type="file" id="proj-file" /><br><br>
-    <button onclick="addProject()" style="padding:10px 15px;">Upload Project</button>
-    <p id="msg" style="color:green;"></p>
-  </div>
+      const userHTML = `<p><strong>You:</strong> ${userMessage}</p>`;
+      chat.innerHTML += userHTML;
 
-  <!-- AI Chatbot -->
-  <div style="padding:20px;">
-    <h2>AI Chatbot</h2>
-    <input id="chat-input" type="text" placeholder="Ask something..." style="padding:5px;width:300px;">
-    <button onclick="chatBot()" style="padding:5px 10px;">Ask</button>
-    <p id="chat-response" style="background:white;padding:10px;margin-top:10px;"></p>
-  </div>
-
-  <!-- Contact -->
-  <div style="padding:20px;background:white;">
-    <h2>Contact</h2>
-    <p>Email: vikram@example.com</p>
-    <p>Phone: +91-XXXXXXXXXX</p>
-  </div>
-
-  <!-- Footer -->
-  <div style="background:#222;color:white;text-align:center;padding:10px;">
-    <p>&copy; 2025 Vikram Kumar Azad</p>
-  </div>
-
-  <!-- JavaScript Logic -->
-  <script>
-    let password = "vikram123";
-    let projects = [];
-
-    function addProject() {
-      const pass = document.getElementById("admin-pass").value;
-      const title = document.getElementById("proj-title").value;
-      const desc = document.getElementById("proj-desc").value;
-      const cat = document.getElementById("proj-cat").value;
-      const file = document.getElementById("proj-file").files[0];
-      const fileName = file ? file.name : "No file";
-
-      if (pass !== password) {
-        alert("Wrong password!");
-        return;
-      }
-      if (!title || !desc) {
-        alert("Fill all fields!");
-        return;
-      }
-
-      projects.push({title, desc, category: cat, fileName});
-      document.getElementById("msg").innerText = "✅ Project added!";
-      document.getElementById("proj-title").value = "";
-      document.getElementById("proj-desc").value = "";
-      document.getElementById("proj-file").value = "";
-      showProjects();
+      const botReply = `<p><strong>Bot:</strong> I'm just a cute little assistant here to help! 😊</p>`;
+      chat.innerHTML += botReply;
+      input.value = '';
+      chat.scrollTop = chat.scrollHeight;
     }
-
-    function showProjects() {
-      const list = document.getElementById("project-list");
-      const search = document.getElementById("search").value.toLowerCase();
-      const filter = document.getElementById("filter").value;
-      list.innerHTML = "";
-
-      projects
-        .filter(p =>
-          (filter === "all" || p.category === filter) &&
-          (p.title.toLowerCase().includes(search) || p.desc.toLowerCase().includes(search))
-        )
-        .forEach(p => {
-          const item = `<div style="background:white;padding:10px;margin:10px 0;border-radius:10px;">
-            <h3>${p.title} <span style="font-size:14px;color:gray;">[${p.category}]</span></h3>
-            <p>${p.desc}</p>
-            <p><b>File:</b> ${p.fileName}</p>
-          </div>`;
-          list.innerHTML += item;
-        });
-    }
-
-    function chatBot() {
-      const input = document.getElementById("chat-input").value.toLowerCase();
-      let response = "Sorry, I don't understand.";
-
-      if (input.includes("hello") || input.includes("hi")) response = "Hi! I'm Vikram's AI assistant.";
-      else if (input.includes("skills")) response = "Vikram knows HTML, JavaScript, AI tools, and more.";
-      else if (input.includes("project")) response = "Check out the latest projects above!";
-      else if (input.includes("contact")) response = "You can contact Vikram at vikram@example.com.";
-
-      document.getElementById("chat-response").innerText = response;
-    }
-  </script>
-
-</body>
+  </script></body>
 </html>
