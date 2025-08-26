@@ -178,6 +178,94 @@ see <!doctype html>
     fileInput.value = '';
   });
 </script>
+<!-- colorful AI chatbox -->
+<div id="ai-chat-container"></div>
+
+<script>
+(function(){
+  const container = document.getElementById("ai-chat-container");
+  container.innerHTML = `
+    <style>
+      .vk-chat { max-width:360px; border-radius:16px; box-shadow:0 6px 24px rgba(0,0,0,.14); overflow:hidden; font-family:system-ui,-apple-system,Segoe UI,Roboto; }
+      .vk-header { background: linear-gradient(135deg,#7b2ff7,#ff416c); color:white; padding:12px 14px; display:flex; gap:10px; align-items:center; }
+      .vk-avatar { width:38px; height:38px; border-radius:50%; background: white; display:flex; align-items:center; justify-content:center; font-weight:700; color:#7b2ff7; }
+      .vk-body { background: linear-gradient(180deg,#fff,#f7f7ff); padding:12px; height:360px; overflow:auto; display:flex; flex-direction:column; gap:10px; }
+      .vk-msg { max-width:80%; padding:10px 12px; border-radius:12px; line-height:1.3; }
+      .vk-user { align-self:flex-end; background:#7b2ff7; color:white; border-bottom-right-radius:2px; }
+      .vk-bot { align-self:flex-start; background:white; color:#222; border:1px solid #eee; }
+      .vk-input { display:flex; gap:8px; padding:10px; background:#fff; }
+      .vk-input textarea { flex:1; resize:none; padding:8px; border-radius:10px; border:1px solid #ddd; min-height:40px; }
+      .vk-btn { background:linear-gradient(90deg,#ff8a00,#e52e71); color:white; border:none; padding:10px 12px; border-radius:10px; cursor:pointer; }
+      .vk-small { font-size:12px; opacity:.85; }
+    </style>
+
+    <div class="vk-chat">
+      <div class="vk-header">
+        <div class="vk-avatar">VK</div>
+        <div>
+          <div style="font-weight:700">AI Chat — Vikram</div>
+          <div class="vk-small">Hello, I am Vikram Kumar Azad from Patna</div>
+        </div>
+      </div>
+
+      <div class="vk-body" id="vk_body"></div>
+
+      <div class="vk-input">
+        <textarea id="vk_input" placeholder="Type your message..."></textarea>
+        <button id="vk_send" class="vk-btn">Send</button>
+      </div>
+    </div>
+  `;
+
+  const body = container.querySelector("#vk_body");
+  const input = container.querySelector("#vk_input");
+  const send = container.querySelector("#vk_send");
+
+  function appendMessage(text, from="bot") {
+    const div = document.createElement("div");
+    div.className = "vk-msg " + (from==="user" ? "vk-user" : "vk-bot");
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  const messages = [
+    { role: "system", content: "You are a helpful assistant." }
+  ];
+
+  send.addEventListener("click", async () => {
+    const txt = input.value.trim();
+    if (!txt) return;
+    appendMessage(txt, "user");
+    input.value = "";
+    messages.push({ role: "user", content: txt });
+
+    appendMessage("Thinking...", "bot");
+    try {
+      const resp = await fetch("https://YOUR_BACKEND_URL/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages })
+      });
+      const data = await resp.json();
+      const assistant = data.choices?.[0]?.message?.content || "No reply";
+      const last = Array.from(body.querySelectorAll(".vk-bot")).pop();
+      if (last) last.textContent = assistant;
+      messages.push({ role: "assistant", content: assistant });
+    } catch (err) {
+      appendMessage("Error: cannot connect to AI", "bot");
+    }
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send.click();
+    }
+  });
+
+})();
+</script>
 
 <!-- ====================== Class 4 Maths Book (Full Detailed HTML) ====================== -->
 <section id="class4-math-book" style="padding:40px; background:linear-gradient(135deg,#a8edea,#fed6e3);">
