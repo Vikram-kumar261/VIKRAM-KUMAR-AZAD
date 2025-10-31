@@ -1,0 +1,55 @@
+import random
+
+def get_computer_choice():
+    """Computer ke liye random choice chunta hai."""
+    choices = ['rock', 'paper', 'scissors']
+    return random.choice(choices)
+
+def determine_winner(user_choice, computer_choice):
+    """Winner ka faisla karta hai."""
+    
+    # Draw check karte hain
+    if user_choice == computer_choice:
+        return "Draw"
+    
+    # Winning conditions
+    elif (user_choice == 'rock' and computer_choice == 'scissors') or \
+         (user_choice == 'scissors' and computer_choice == 'paper') or \
+         (user_choice == 'paper' and computer_choice == 'rock'):
+        return "You Win!"
+    
+    # Baki sab haarein ge
+    else:
+        return "Computer Wins!"
+
+def play_game():
+    """Main game function."""
+    
+    print("*************************************")
+    print("  ROCK, PAPER, SCISSORS (पत्थर, कागज़, कैंची) ")
+    print("*************************************")
+    
+    while True:
+        # User se input lena aur lower case mein convert karna
+        user_input = input("Apni choice daaliye (rock, paper, scissors) ya 'quit' game band karne ke liye: ").lower()
+        
+        if user_input == 'quit':
+            print("Khelne ke liye dhanyawaad! 👋")
+            break
+        
+        if user_input not in ['rock', 'paper', 'scissors']:
+            print("Invalid input. Kripya 'rock', 'paper', ya 'scissors' hi daalein.")
+            continue
+            
+        computer_choice = get_computer_choice()
+        
+        print(f"\nAapne chuna: {user_input}")
+        print(f"Computer ne chuna: {computer_choice}")
+        
+        result = determine_winner(user_input, computer_choice)
+        print(f"\n--- Result: {result} ---")
+        
+# Game shuru karna
+if __name__ == "__main__":
+    play_game()
+
